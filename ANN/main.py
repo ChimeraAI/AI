@@ -1,15 +1,14 @@
-from numpy import exp, array, random, dot
+from numpy import exp, array, random, dot, rint
 
 class NeuronLayer():
     def __init__(self, number_of_neurons, number_of_inputs_per_neuron):
         self.synaptic_weights = 2 * random.random((number_of_inputs_per_neuron, number_of_neurons)) - 1
-        print(self.synaptic_weights)
-        print(type(self.synaptic_weights))
 
 class NeuralNetwork():
-    def __init__(self, layer1, layer2):
+    def __init__(self, layer1, layer2, learningRate):
         self.layer1 = layer1
         self.layer2 = layer2
+        self.learningRate = learningRate
 
     def __sigmoid(self, x):
         return 1 / (1 + exp(-x))
@@ -21,6 +20,9 @@ class NeuralNetwork():
         output_from_layer1 = self.__sigmoid(dot(inputs, self.layer1.synaptic_weights))
         output_from_layer2 = self.__sigmoid(dot(output_from_layer1, self.layer2.synaptic_weights))
         return output_from_layer1, output_from_layer2
+
+    def cosFxn(self, t, a):
+        pass
     
     def train(self, traing_set_inputs, traing_set_outputs, number_of_training_iterations):
         for iteration in range(number_of_training_iterations):
@@ -39,7 +41,7 @@ class NeuralNetwork():
             self.layer2.synaptic_weights += layer2_adjustment
 
     def print_weights(self):
-        print ("    Layer 1 (4 neurons, each with 3 inputs): ")
+        print ("    Layer 1 (4 neurons, each with 2 inputs): ")
         print (self.layer1.synaptic_weights)
         print ("    Layer 2 (1 neuron, with 4 inputs):")
         print (self.layer2.synaptic_weights)
@@ -47,26 +49,22 @@ class NeuralNetwork():
 
 if __name__ == "__main__":
 
-    layer1 = NeuronLayer(4,3)
+    layer1 = NeuronLayer(10,2)
 
-    layer2 = NeuronLayer(1,4)
+    layer2 = NeuronLayer(1,10)
 
-    neural_network = NeuralNetwork(layer1, layer2)
+    learningRate = 1
 
-    print ("Stage 1) Random starting synaptic weights: ")
-    neural_network.print_weights()
+    neural_network = NeuralNetwork(layer1, layer2, learningRate)
 
-    training_set_inputs = array([[0, 0, 1], [0, 1, 1], [1, 0, 1], [0, 1, 0], [1, 0, 0], [1, 1, 1], [0, 0, 0]])
-    training_set_outputs = array([[0, 1, 1, 1, 1, 0, 0]]).T
+
+    training_set_inputs = array([[0, 0], [1, 1], [1, 0], [0, 1]])
+    training_set_outputs = array([[0, 1, 0, 0]]).T
 
     neural_network.train(training_set_inputs, training_set_outputs, 60000)
 
-    print ("Stage 2) New synaptic weights after training: ")
-    neural_network.print_weights()
-
-    print ("Stage 3) Considering a new situation [1, 1, 0] -> ?: ")
-    hidden_state, output = neural_network.think(array([1, 1, 0]))
-    print(output)
+    hidden_state, output = neural_network.think(array([[0, 0], [1, 1], [1, 0], [0, 1]]))
+    print(rint(output))
 
 
 
