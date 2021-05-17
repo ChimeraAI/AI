@@ -22,6 +22,7 @@ enum_tokens = dict((c, i) for i, c in enumerate(tokens))
 question = []
 answer = []
 for i in rawData:
-    splitData = rawData.split(" =")
-    seq_in = splitData[0]
-    seq_out = splitData[1]
+    splitData = i.split(" =")
+    print(splitData)
+
+
