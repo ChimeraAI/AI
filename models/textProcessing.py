@@ -13,16 +13,8 @@ for i in range(101):
         rawData.append(str(i) + " / " + str(j) + " = " + str(m))
         rawData.append(str(i) + " * " + str(j) + " = " + str(n))
 
-sentence_data = np.array(rawData)
-raw_tokens = np.array([nltk.word_tokenize(i) for i in sentence_data])
-tokens = np.array([nltk.word_tokenize(i) for i in sentence_data]).flatten()
-
-enum_tokens = dict((c, i) for i, c in enumerate(tokens))
-
-question = []
-answer = []
-for i in rawData:
-    splitData = i.split(" =")
-    print(splitData)
+vocabulary = '0123456789+-*/'
+num_features = len(vocabulary)
+char_to_index = dict((c,i) for i, c in enumereate(voca))
 
 
